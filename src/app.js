@@ -1,13 +1,8 @@
 const express = require("express");
+const authRoutes = require("./routes/auth");
 
 const app = express();
 
-app.get("/", (req, res) => {
-  res.send("<h1> Hello from CodeVance</h1>");
-});
-
-app.get("/about", (req, res) => {
-  res.send("<h1> About CodeVance</h1>");
-});
+app.use("/api/auth", authRoutes);
 
 module.exports = app;
