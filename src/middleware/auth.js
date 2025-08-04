@@ -7,7 +7,6 @@ const isLoggedIn = async (req, res, next) => {
       throw new Error("Invalid token, Please login again!");
     }
     const data = jwt.verify(token, process.env.JWT_SECRET_KEY);
-    console.log(data);
     const user = await User.findById({ _id: data._id });
     if (!user) {
       throw new Error("User not found");
