@@ -3,9 +3,16 @@ const express = require("express");
 const { createProxyMiddleware } = require("http-proxy-middleware");
 const { rateLimit } = require("express-rate-limit");
 const morgan = require("morgan");
+const cors = require("cors");
 
 const app = express();
 
+app.use(
+  cors({
+    origin: [process.env.FRONTEND_URL],
+    credentials: true,
+  })
+);
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 mins
   max: 100,

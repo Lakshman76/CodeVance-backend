@@ -2,10 +2,14 @@ const bcrypt = require("bcrypt");
 const User = require("../models/user");
 const signup = async (req, res) => {
   try {
-    const { username, email, password } = req.body;
+    const { firstName, lastName, email, password, confirmPassword } = req.body;
+    if (password !== confirmPassword) {
+      throw new Error("Passwords do not match");
+    }
     const encryptedPassword = await bcrypt.hash(password, 10);
     const user = new User({
-      username,
+      firstName,
+      lastName,
       email,
       password: encryptedPassword,
     });
