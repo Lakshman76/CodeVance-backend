@@ -27,11 +27,11 @@ const login = async (req, res) => {
     if (!user) {
       throw new Error("Invalid email or password");
     }
-    const isValidPassword = user.validatePassword(password);
+    const isValidPassword = await user.validatePassword(password);
     if (!isValidPassword) {
       throw new Error("Invalid email or password");
     }
-    const token = user.generateJwtToken();
+    const token = await user.generateJwtToken();
     res.cookie("token", token);
     res.send("Login Successful!!");
   } catch (error) {
@@ -43,8 +43,13 @@ const logout = async (req, res) => {
   res.send("Logout Successful!!");
 };
 
+const profile = async (req, res) => {
+  res.send(req.user);
+};
+
 module.exports = {
   signup,
   login,
   logout,
+  profile,
 };
