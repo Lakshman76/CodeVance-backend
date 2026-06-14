@@ -32,14 +32,24 @@ const login = async (req, res) => {
       throw new Error("Invalid email or password");
     }
     const token = await user.generateJwtToken();
-    res.cookie("token", token);
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+    });
     res.send("Login Successful!!");
   } catch (error) {
     res.status(400).send("Failed to login user: " + error.message);
   }
 };
 const logout = async (req, res) => {
-  res.cookie("token", null, { expires: new Date(Date.now()) });
+  res.cookie("token", "", {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+    expires: new Date(0),
+  });
   res.send("Logout Successful!!");
 };
 
