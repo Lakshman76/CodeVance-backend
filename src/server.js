@@ -7,7 +7,7 @@ connectToDB()
   .then(() => {
     console.log("Connected to databse");
     app.listen(PORT, () => {
-      console.log(`Auth service running on http://localhost:${PORT}`);
+      console.log(`Server running on port ${PORT}`);
     });
   })
   .catch((err) => {
